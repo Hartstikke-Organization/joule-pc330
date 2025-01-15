@@ -76,7 +76,7 @@ function main() {
     let flexPeriod = parseInt(document.querySelector('input[name="flexPeriod"]:checked').value)
     let civilStatus = document.querySelector('input[name="civilStatus"]:checked').value
     let computeModel = document.querySelector('input[name="computeModel"]:checked').value
-    let bikeLease = document.querySelector('#bikeLease').value
+    let bikeLease = parseInt(document.querySelector('#bikeLease').value)
     // let workingSpouse = document.querySelector('#workingSpouse').value
     let dependentChildren = parseInt(document.querySelector('#dependentChildren').value)
     let monthlyLeasePrice = parseInt(document.querySelector('#bikeLease').value)
@@ -84,7 +84,6 @@ function main() {
     const data = {
       grossSalary: grossYearlySalary,
       grossYearEndPremium: 2000,
-      flexBudget: bikeLease * 12,
       workingSpouse: true,
       dependentChildren: dependentChildren,
       monthlyLeasePrice: monthlyLeasePrice / VAT_RATE,
@@ -92,6 +91,7 @@ function main() {
       civilStatus: civilStatus,
       computeModel: computeModel,
       computeLeaseRateDto: {
+        bikeRetailPrice: bikeLease / VAT_RATE,
         discountRate: 0,
         interestRate: 0.077,
         insurancePremium: 0.035,
@@ -158,6 +158,8 @@ function main() {
       setValue('afterSocialSecurityContributions', '- €' + Math.abs(r.afterLease.socialSecurityContributions.toFixed(0)))
 
       setValue('advantage', Math.abs((r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions).toFixed(0)))
+      setValue('monthlyLeasePrice', Math.abs((bikeLease * 12).toFixed(0)))
+      setValue('recoup', Math.abs((bikeLease * 12 + (r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(0)))
 
       // Taxable Income
       setValue('beforeTaxableIncome', '€' + (r.beforeLease.grossYearEndPremium - r.beforeLease.socialSecurityContributions).toFixed(0))
@@ -211,6 +213,6 @@ function main() {
   })
 }
 
-console.log('whatdup gang')
+console.log('whatdup ganggg')
 // Execute main function
 main()
