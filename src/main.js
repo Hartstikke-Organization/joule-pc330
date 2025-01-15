@@ -49,6 +49,14 @@ function main() {
     const target = e.target
     const linkedAttributeName = target.dataset.linkedInput || target.dataset.linkedRange
 
+    if (document.querySelector('input[name="civilStatus"]:checked')) {
+      if (document.querySelector('input[name="civilStatus"]:checked').value === 'MARRIED' || document.querySelector('input[name="civilStatus"]:checked').value === 'COHABITING') {
+        document.querySelector('#workingSpouseParent').classList.remove('hide')
+      } else {
+        document.querySelector('#workingSpouseParent').classList.add('hide')
+      }
+    }
+
     if (linkedAttributeName) {
       const linkedElements = document.querySelectorAll(`[data-linked-input="${linkedAttributeName}"], [data-linked-range="${linkedAttributeName}"]`)
 
@@ -72,19 +80,19 @@ function main() {
 
     let flexBudget = parseFloat(document.querySelector('#grossYearEndPremium').value)
     let grossYearlySalary = parseFloat(document.querySelector('#grossSalary').value)
-    let grossYearEndPremium = parseFloat(document.querySelector('#grossYearEndPremium').value)
     let flexPeriod = parseInt(document.querySelector('input[name="flexPeriod"]:checked').value)
     let civilStatus = document.querySelector('input[name="civilStatus"]:checked').value
     let computeModel = document.querySelector('input[name="computeModel"]:checked').value
+    let workingSpouse
+    document.querySelector('input[name="workingSpouse"]:checked').value === 'true' ? (workingSpouse = true) : (workingSpouse = false)
     let bikeLease = parseInt(document.querySelector('#bikeLease').value)
-    // let workingSpouse = document.querySelector('#workingSpouse').value
     let dependentChildren = parseInt(document.querySelector('#dependentChildren').value)
     let monthlyLeasePrice = parseInt(document.querySelector('#bikeLease').value)
 
     const data = {
       grossSalary: grossYearlySalary,
       grossYearEndPremium: 2000,
-      workingSpouse: true,
+      workingSpouse: workingSpouse || true,
       dependentChildren: dependentChildren,
       monthlyLeasePrice: monthlyLeasePrice / VAT_RATE,
       workingRegimePercent: 1,
