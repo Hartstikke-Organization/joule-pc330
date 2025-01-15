@@ -1,4 +1,6 @@
 function main() {
+  const VAT_RATE = 1.21
+
   function initializeLinkedInputs() {
     const inputRanges = document.querySelectorAll('.linked-input, .linked-range')
     inputRanges.forEach((element) => {
@@ -43,8 +45,8 @@ function main() {
 
   initializeLinkedInputs()
 
-  document.addEventListener('input', function (event) {
-    const target = event.target
+  document.addEventListener('input', function (e) {
+    const target = e.target
     const linkedAttributeName = target.dataset.linkedInput || target.dataset.linkedRange
 
     if (linkedAttributeName) {
@@ -55,6 +57,11 @@ function main() {
         updateLinkedValue.call(linkedElement)
       })
     }
+
+    console.log(target.name)
+    if (target.name === 'endYearBoolean' && target.checked) {
+      // document.querySelector('#endYearInputParent').classList.remove('hide')
+    }
   })
 
   // VARIABLES
@@ -64,18 +71,26 @@ function main() {
     // VALUES
 
     let flexBudget = parseFloat(document.querySelector('#grossYearEndPremium').value)
-    let grossYearlySalary = parseFloat(document.querySelector('#grossYearlySalary').value)
+    let grossYearlySalary = parseFloat(document.querySelector('#grossSalary').value)
     let grossYearEndPremium = parseFloat(document.querySelector('#grossYearEndPremium').value)
     let flexPeriod = parseInt(document.querySelector('input[name="flexPeriod"]:checked').value)
+    let civilStatus = document.querySelector('input[name="civilStatus"]:checked').value
+    let computeModel = document.querySelector('input[name="computeModel"]:checked').value
     let bikeLease = document.querySelector('#bikeLease').value
-    let workingRegimePercent = document.querySelector('#workingRegimePercent').value / 100 || 1
+    // let workingSpouse = document.querySelector('#workingSpouse').value
+    let dependentChildren = parseInt(document.querySelector('#dependentChildren').value)
+    let monthlyLeasePrice = parseInt(document.querySelector('#bikeLease').value)
 
     const data = {
-      employmentStatus: 'CONTRACTUAL',
-      grossYearlySalary: grossYearlySalary,
-      grossYearEndPremium: grossYearEndPremium,
+      grossSalary: grossYearlySalary,
+      grossYearEndPremium: 2000,
       flexBudget: bikeLease * 12,
-      workingRegimePercent: workingRegimePercent,
+      workingSpouse: true,
+      dependentChildren: dependentChildren,
+      monthlyLeasePrice: monthlyLeasePrice / VAT_RATE,
+      workingRegimePercent: 1,
+      civilStatus: civilStatus,
+      computeModel: computeModel,
       computeLeaseRateDto: {
         discountRate: 0,
         interestRate: 0.077,
@@ -90,7 +105,7 @@ function main() {
     console.log(data)
 
     try {
-      const json = await fetch('https://api.offr.be/partners/joule/calculate-teachers', {
+      const json = await fetch('https://api.offr.be/partners/joule/calculate-cp330', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,9 +150,14 @@ function main() {
       setValue('beforeGrossYearEndPremium', '€' + r.beforeLease.grossYearEndPremium.toFixed(0))
       setValue('afterGrossYearEndPremium', '€' + Math.abs(r.afterLease.grossYearEndPremium.toFixed(0)))
 
+      setValue('beforeEmployerSocialSecurityContributions', '€' + Math.abs(r.beforeLease.employerSocialSecurityContributions.toFixed(0)))
+      setValue('afterEmployerSocialSecurityContributions', '€' + Math.abs(r.afterLease.employerSocialSecurityContributions.toFixed(0)))
+
       // RSZ
       setValue('beforeSocialSecurityContributions', '- €' + Math.abs(r.beforeLease.socialSecurityContributions.toFixed(0)))
       setValue('afterSocialSecurityContributions', '- €' + Math.abs(r.afterLease.socialSecurityContributions.toFixed(0)))
+
+      setValue('advantage', Math.abs((r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions).toFixed(0)))
 
       // Taxable Income
       setValue('beforeTaxableIncome', '€' + (r.beforeLease.grossYearEndPremium - r.beforeLease.socialSecurityContributions).toFixed(0))
@@ -191,5 +211,6 @@ function main() {
   })
 }
 
+console.log('whatdup gang')
 // Execute main function
 main()
