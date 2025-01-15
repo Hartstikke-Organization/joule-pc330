@@ -83,8 +83,8 @@ function main() {
     let flexPeriod = parseInt(document.querySelector('input[name="flexPeriod"]:checked').value)
     let civilStatus = document.querySelector('input[name="civilStatus"]:checked').value
     let computeModel = document.querySelector('input[name="computeModel"]:checked').value
-    let workingSpouse
-    document.querySelector('input[name="workingSpouse"]:checked').value === 'true' ? (workingSpouse = true) : (workingSpouse = false)
+    let workingSpouse = false
+    document.querySelector('input[name="workingSpouse"]:checked').value == 'true' ? (workingSpouse = true) : (workingSpouse = false)
     let bikeLease = parseInt(document.querySelector('#bikeLease').value)
     let dependentChildren = parseInt(document.querySelector('#dependentChildren').value)
     let monthlyLeasePrice = parseInt(document.querySelector('#bikeLease').value)
@@ -92,7 +92,7 @@ function main() {
     const data = {
       grossSalary: grossYearlySalary,
       grossYearEndPremium: flexBudget,
-      workingSpouse: workingSpouse || true,
+      workingSpouse: workingSpouse,
       dependentChildren: dependentChildren,
       monthlyLeasePrice: monthlyLeasePrice / VAT_RATE,
       workingRegimePercent: 1,
