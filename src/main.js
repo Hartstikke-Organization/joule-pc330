@@ -166,9 +166,9 @@ function main() {
       setValue('beforeSocialSecurityContributions', '- €' + Math.abs(r.beforeLease.socialSecurityContributions.toFixed(0)))
       setValue('afterSocialSecurityContributions', '- €' + Math.abs(r.afterLease.socialSecurityContributions.toFixed(0)))
 
-      setValue('advantage', Math.abs((r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions).toFixed(0)))
+      setValue('advantage', Math.abs((Math.abs(r.afterLease.employerSocialSecurityContributions) - r.beforeLease.employerSocialSecurityContributions).toFixed(0)))
       setValue('monthlyLeasePrice', Math.abs((bikeLease * 12).toFixed(0)))
-      setValue('recoup', Math.abs((bikeLease * 12 + (r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(0)))
+      setValue('recoup', Math.abs((bikeLease * 12 - Math.abs(r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(0)))
 
       // Taxable Income
       setValue('beforeTaxableIncome', '€' + (r.beforeLease.grossYearEndPremium - r.beforeLease.socialSecurityContributions).toFixed(0))
