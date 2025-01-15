@@ -151,11 +151,11 @@ function main() {
         }
       }
 
-      const checkIfPositive = (inputValue, withDollar = true) => {
+      const checkIfPositive = (inputValue, withDollar = true, forceNegative = false) => {
         if (inputValue > 0) {
-          return withDollar ? '€' + inputValue : inputValue
+          return withDollar ? `${forceNegative ? '- ' : ''}€` + inputValue : inputValue
         } else {
-          return withDollar ? '€' + 0 : 0
+          return withDollar ? `${forceNegative ? '- ' : ''}€` + 0 : 0
         }
       }
 
@@ -172,7 +172,7 @@ function main() {
 
       // RSZ
       setValue('beforeSocialSecurityContributions', '- €' + Math.abs(r.beforeLease.socialSecurityContributions.toFixed(0)))
-      setValue('afterSocialSecurityContributions', checkIfPositive(r.afterLease.socialSecurityContributions.toFixed(0), true))
+      setValue('afterSocialSecurityContributions', checkIfPositive(r.afterLease.socialSecurityContributions.toFixed(0), true, true))
 
       const deltaPatronaleBijdrage = Math.abs(r.afterLease.employerSocialSecurityContributions - Math.abs(r.beforeLease.employerSocialSecurityContributions))
       // const deltaPatronaleBijdrageRaw = r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions
@@ -198,7 +198,7 @@ function main() {
 
       // Income Tax
       setValue('beforeIncomeTax', '- €' + Math.abs(r.beforeLease.incomeTaxes.toFixed(0)))
-      setValue('afterIncomeTax', checkIfPositive(r.afterLease.incomeTaxes.toFixed(0)))
+      setValue('afterIncomeTax', checkIfPositive(r.afterLease.incomeTaxes.toFixed(0), true, true))
 
       // Netto Eindejaarspremie
       setValue('beforeNetYearEndPremium', '€' + r.beforeLease.netYearEndPremium.toFixed(0))
