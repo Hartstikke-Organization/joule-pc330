@@ -95,6 +95,7 @@ function main() {
         discountRate: 0,
         interestRate: 0.077,
         insurancePremium: 0.035,
+        durationInMonths: flexPeriod,
         deliveryCost: 50,
         assemblyCost: 117,
         yearlyAdminFee1: 36,
