@@ -45,6 +45,21 @@ function main() {
 
   initializeLinkedInputs()
 
+  const checkComputeModel = () => {
+    const computeModelWhites = document.querySelectorAll('input[name="computeModel"][data-bediende]')
+    const computeModelBlues = document.querySelectorAll('input[name="computeModel"][data-arbeider]')
+    if (document.querySelector('input[name="employmentStatus"]:checked').value == 'white-collar') {
+      computeModelWhites.forEach((el) => el.parentElement.classList.remove('hide'))
+      computeModelBlues.forEach((el) => el.parentElement.classList.add('hide'))
+      console.log('bediende')
+    } else {
+      computeModelWhites.forEach((el) => el.parentElement.classList.add('hide'))
+      computeModelBlues.forEach((el) => el.parentElement.classList.remove('hide'))
+      console.log('arbeiders')
+    }
+  }
+  checkComputeModel()
+
   document.addEventListener('input', function (e) {
     const target = e.target
     const linkedAttributeName = target.dataset.linkedInput || target.dataset.linkedRange
@@ -56,6 +71,7 @@ function main() {
         document.querySelector('#workingSpouseParent').classList.add('hide')
       }
     }
+    checkComputeModel()
 
     if (linkedAttributeName) {
       const linkedElements = document.querySelectorAll(`[data-linked-input="${linkedAttributeName}"], [data-linked-range="${linkedAttributeName}"]`)
@@ -175,7 +191,6 @@ function main() {
       setValue('afterSocialSecurityContributions', checkIfPositive(r.afterLease.socialSecurityContributions.toFixed(0), true, true))
 
       const deltaPatronaleBijdrage = Math.abs(r.afterLease.employerSocialSecurityContributions - Math.abs(r.beforeLease.employerSocialSecurityContributions))
-      // const deltaPatronaleBijdrageRaw = r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions
 
       setValue('advantage', r.afterLease.employerSocialSecurityContributions > 0 ? deltaPatronaleBijdrage.toFixed(0) : r.beforeLease.employerSocialSecurityContributions.toFixed(0))
       setValue('monthlyLeasePrice', Math.abs((bikeLease * 12).toFixed(0)))
@@ -184,8 +199,8 @@ function main() {
       if (r.afterLease.employerSocialSecurityContributions > 0) {
         recoupValue = Math.abs((bikeLease * 12 - Math.abs(r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(0))
       } else {
-        recoupValue = bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions
-        setValue('red', Math.abs(flexBudget - (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions)))
+        recoupValue = (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions).toFixed(0)
+        setValue('red', Math.abs(flexBudget - (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions)).toFixed(0))
         console.log(bikeLease * 12)
         console.log(r.beforeLease.employerSocialSecurityContributions)
       }
