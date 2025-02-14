@@ -10,6 +10,14 @@ function main() {
     })
   }
 
+  function checkLength(elem, max) {
+    // checking if iput value is more than 5
+    if (elem.value > max) {
+      console.log(`Max value is ${max}`)
+      elem.value = max - 1 // emptying the input box
+    }
+  }
+
   function updateLinkedValue() {
     const linkedId = this.getAttribute('data-linked-input') || this.getAttribute('data-linked-range')
     const linkedElement = document.getElementById(linkedId)
@@ -63,6 +71,11 @@ function main() {
   document.addEventListener('input', function (e) {
     const target = e.target
     const linkedAttributeName = target.dataset.linkedInput || target.dataset.linkedRange
+
+    // ✅ Fixing the incorrect condition: Check if target is an input and has 'max' attribute
+    if (target.tagName === 'INPUT' && target.hasAttribute('max')) {
+      checkLength(target, parseInt(target.getAttribute('max'), 10))
+    }
 
     if (document.querySelector('input[name="civilStatus"]:checked')) {
       if (document.querySelector('input[name="civilStatus"]:checked').value === 'MARRIED' || document.querySelector('input[name="civilStatus"]:checked').value === 'COHABITING') {
