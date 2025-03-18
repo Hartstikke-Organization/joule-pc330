@@ -193,27 +193,27 @@ function main() {
       // setValue('red', Math.abs(flexBudget - bikeLease * 12))
 
       // grossYearEndPremium
-      setValue('beforeGrossYearEndPremium', '€' + r.beforeLease.grossYearEndPremium.toFixed(0))
-      setValue('afterGrossYearEndPremium', checkIfPositive(r.afterLease.grossYearEndPremium.toFixed(0)))
+      setValue('beforeGrossYearEndPremium', '€' + r.beforeLease.grossYearEndPremium.toFixed(2))
+      setValue('afterGrossYearEndPremium', checkIfPositive(r.afterLease.grossYearEndPremium.toFixed(2)))
 
-      setValue('beforeEmployerSocialSecurityContributions', '€' + Math.abs(r.beforeLease.employerSocialSecurityContributions.toFixed(0)))
-      setValue('afterEmployerSocialSecurityContributions', checkIfPositive(r.afterLease.employerSocialSecurityContributions.toFixed(0), true))
+      setValue('beforeEmployerSocialSecurityContributions', '€' + Math.abs(r.beforeLease.employerSocialSecurityContributions.toFixed(2)))
+      setValue('afterEmployerSocialSecurityContributions', checkIfPositive(r.afterLease.employerSocialSecurityContributions.toFixed(2), true))
 
       // RSZ
-      setValue('beforeSocialSecurityContributions', '- €' + Math.abs(r.beforeLease.socialSecurityContributions.toFixed(0)))
-      setValue('afterSocialSecurityContributions', checkIfPositive(r.afterLease.socialSecurityContributions.toFixed(0), true, true))
+      setValue('beforeSocialSecurityContributions', '- €' + Math.abs(r.beforeLease.socialSecurityContributions.toFixed(2)))
+      setValue('afterSocialSecurityContributions', checkIfPositive(r.afterLease.socialSecurityContributions.toFixed(2), true, true))
 
       const deltaPatronaleBijdrage = Math.abs(r.afterLease.employerSocialSecurityContributions - Math.abs(r.beforeLease.employerSocialSecurityContributions))
 
-      setValue('advantage', r.afterLease.employerSocialSecurityContributions > 0 ? deltaPatronaleBijdrage.toFixed(0) : r.beforeLease.employerSocialSecurityContributions.toFixed(0))
-      setValue('monthlyLeasePrice', Math.abs((bikeLease * 12).toFixed(0)))
+      setValue('advantage', r.afterLease.employerSocialSecurityContributions > 0 ? deltaPatronaleBijdrage.toFixed(2) : r.beforeLease.employerSocialSecurityContributions.toFixed(2))
+      setValue('monthlyLeasePrice', Math.abs((bikeLease * 12).toFixed(2)))
 
       let recoupValue
       if (r.afterLease.employerSocialSecurityContributions > 0) {
-        recoupValue = Math.abs((bikeLease * 12 - Math.abs(r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(0))
+        recoupValue = Math.abs((bikeLease * 12 - Math.abs(r.afterLease.employerSocialSecurityContributions - r.beforeLease.employerSocialSecurityContributions)).toFixed(2))
       } else {
-        recoupValue = (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions).toFixed(0)
-        setValue('red', Math.abs(flexBudget - (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions)).toFixed(0))
+        recoupValue = (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions).toFixed(2)
+        setValue('red', Math.abs(flexBudget - (bikeLease * 12 - r.beforeLease.employerSocialSecurityContributions)).toFixed(2))
         console.log(bikeLease * 12)
         console.log(r.beforeLease.employerSocialSecurityContributions)
       }
@@ -221,21 +221,21 @@ function main() {
       setValue('recoup', recoupValue)
 
       // Taxable Income
-      setValue('beforeTaxableIncome', '€' + (r.beforeLease.grossYearEndPremium - r.beforeLease.socialSecurityContributions).toFixed(0))
-      setValue('afterTaxableIncome', checkIfPositive((r.afterLease.grossYearEndPremium - r.afterLease.socialSecurityContributions).toFixed(0)))
+      setValue('beforeTaxableIncome', '€' + (r.beforeLease.grossYearEndPremium - r.beforeLease.socialSecurityContributions).toFixed(2))
+      setValue('afterTaxableIncome', checkIfPositive((r.afterLease.grossYearEndPremium - r.afterLease.socialSecurityContributions).toFixed(2)))
 
       // Income Tax
-      setValue('beforeIncomeTax', '- €' + Math.abs(r.beforeLease.incomeTaxes.toFixed(0)))
-      setValue('afterIncomeTax', checkIfPositive(r.afterLease.incomeTaxes.toFixed(0), true, true))
+      setValue('beforeIncomeTax', '- €' + Math.abs(r.beforeLease.incomeTaxes.toFixed(2)))
+      setValue('afterIncomeTax', checkIfPositive(r.afterLease.incomeTaxes.toFixed(2), true, true))
 
       // Netto Eindejaarspremie
-      setValue('beforeNetYearEndPremium', '€' + r.beforeLease.netYearEndPremium.toFixed(0))
-      setValue('afterNetYearEndPremium', checkIfPositive(r.afterLease.netYearEndPremium.toFixed(0)))
+      setValue('beforeNetYearEndPremium', '€' + r.beforeLease.netYearEndPremium.toFixed(2))
+      setValue('afterNetYearEndPremium', checkIfPositive(r.afterLease.netYearEndPremium.toFixed(2)))
 
       // Netto kost bikelease voor een jaar
       const netCostBikePeriod = ((r.beforeLease.netYearEndPremium - r.afterLease.netYearEndPremium) * flexPeriod) / 12
-      setValue('netCostBikeYear', '€' + (r.beforeLease.netYearEndPremium - r.afterLease.netYearEndPremium).toFixed(0))
-      setValue('netCostBikePeriod', '€' + netCostBikePeriod.toFixed(0))
+      setValue('netCostBikeYear', '€' + (r.beforeLease.netYearEndPremium - r.afterLease.netYearEndPremium).toFixed(2))
+      setValue('netCostBikePeriod', '€' + netCostBikePeriod.toFixed(2))
 
       const conditionalItems = document.querySelectorAll('[data-flex-conditional]')
       const conditionalGreen = document.querySelector('[data-flex-conditional="green"]')
@@ -275,6 +275,6 @@ function main() {
   })
 }
 
-console.log('whatdup ganggg')
+console.log('18 maart')
 // Execute main function
 main()
